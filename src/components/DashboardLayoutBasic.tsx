@@ -9,55 +9,24 @@ import { AppProvider, Navigation, Router } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { PageContainer } from '@toolpad/core/PageContainer';
 import Grid from '@mui/material/Grid2';
+import CustomizedInputBase from './Search';
+import MultipleSelectPlaceholder from './SelectRegion';
 
 const NAVIGATION: Navigation = [
     {
-        kind: 'header',
-        title: 'Main items',
+        segment: 'countryList',
+        title: 'countryList',
     },
     {
-        segment: 'dashboard',
-        title: 'Dashboard',
-        icon: <DashboardIcon />,
-    },
-    {
-        segment: 'orders',
-        title: 'Orders',
-        icon: <ShoppingCartIcon />,
-    },
-    {
-        kind: 'divider',
-    },
-    {
-        kind: 'header',
-        title: 'Analytics',
-    },
-    {
-        segment: 'reports',
-        title: 'Reports',
-        icon: <BarChartIcon />,
-        children: [
-            {
-                segment: 'sales',
-                title: 'Sales',
-                icon: <DescriptionIcon />,
-            },
-            {
-                segment: 'traffic',
-                title: 'Traffic',
-                icon: <DescriptionIcon />,
-            },
-        ],
-    },
-    {
-        segment: 'integrations',
-        title: 'Integrations',
-        icon: <LayersIcon />,
+        segment: 'countryDetails',
+        title: 'countryDetails',
     },
 ];
 
 const demoTheme = extendTheme({
-    colorSchemes: { light: true, dark: true },
+    colorSchemes: {
+        light: { palette: { mode: 'light', primary: { main: '#000000' } } }, dark: { palette: { mode: 'dark', primary: { main: '#ffffff' } } },
+    },
     colorSchemeSelector: 'class',
     breakpoints: {
         values: {
@@ -94,23 +63,27 @@ const Skeleton = styled('div')<{ height: number }>(({ theme, height }) => ({
 export default function DashboardLayoutBasic(props: any) {
     const { window } = props;
 
-    const router = useDemoRouter('/dashboard');
+    const router = useDemoRouter('/countryList');
 
     return (
         <AppProvider
             navigation={NAVIGATION}
-            router={router}
+            // router={router}
             theme={demoTheme}>
-            <DashboardLayout>
-                <PageContainer>
+            <DashboardLayout hideNavigation={true} slotProps={{ appTitle: { branding: { title: 'Where in the world?', logo: '' } } }}>
+                <PageContainer title='' breadcrumbs={[]}>
                     <Grid container spacing={1}>
-
-                        <Grid size={12}>
-                            <Skeleton height={100} />
+                        <Grid size={8}>
+                            <CustomizedInputBase />
+                            {/* <Skeleton height={100} /> */}
+                        </Grid>
+                        <Grid size={4}>
+                            <MultipleSelectPlaceholder />
+                            {/* <Skeleton height={100} /> */}
                         </Grid>
                     </Grid>
                 </PageContainer>
             </DashboardLayout>
-        </AppProvider>
+        </AppProvider >
     );
 }
